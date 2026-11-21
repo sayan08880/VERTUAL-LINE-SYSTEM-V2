@@ -1,18 +1,3 @@
-"""
-Firebase Firestore connection + helper functions.
-
-Setup (do this once):
-1. Go to https://console.firebase.google.com -> your project
-   -> Project Settings (gear icon) -> Service Accounts tab
-   -> "Generate new private key" -> downloads a .json file
-2. Rename it to serviceAccountKey.json and place it in this project's
-   root folder (same folder as app.py).
-3. Add serviceAccountKey.json to .gitignore (already done for you) so
-   it never gets committed or uploaded anywhere.
-4. In the Firebase Console, go to "Firestore Database" -> "Create database"
-   if you haven't already (Firestore, NOT Realtime Database).
-"""
-
 import firebase_admin
 from firebase_admin import credentials, firestore
 from config import Config
@@ -26,16 +11,6 @@ APPOINTMENTS_COLLECTION = "appointments"
 
 
 def add_appointment(name: str, email: str, appointment_time: str, message: str = "", reminder_lead_minutes: int = 1):
-    """
-    appointment_time is expected as an ISO string, e.g. '2026-07-18T15:30'
-    (this is exactly what an HTML <input type="datetime-local"> gives you).
-
-    message is an optional custom reminder message the booker can type in;
-    if left blank, the scheduler falls back to a default reminder text.
-
-    reminder_lead_minutes is how many minutes before appointment_time the
-    reminder email should go out (chosen by the booker in the dropdown).
-    """
     doc_ref = db.collection(APPOINTMENTS_COLLECTION).document()
     doc_ref.set({
         "name": name,
